@@ -1,7 +1,7 @@
-import Header from './Components/Header.jsx'
+import Header from './components/Header.jsx'
 import Slider from './components/Slider.jsx'
 import About from './components/About.jsx'
-import Footer from './Components/Footer.jsx'
+import Footer from './components/Footer.jsx'
 
 function App() {
 
