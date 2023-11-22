@@ -1,0 +1,64 @@
+/* Project.scss */
+.containerProject {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 100px;
+  
+    h3 {
+      color: #ecb807;
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+  
+    h2 {
+    margin-top: 0;
+      color: black;
+      font-size: 48px;
+    }
+  
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 90px;
+  
+      div {
+        padding: 20px;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 550px;
+        height: 300px;  
+        h6 {
+          font-size: 24px;
+          color: white;
+        }
+        p {
+          font-size: 16px;
+          color: white;
+        }
+
+      }
+      .stationary{
+        background-image: url('https://startbootstrap.github.io/startbootstrap-stylish-portfolio/assets/img/portfolio-1.jpg');
+        background-size: cover;
+        // width: 500px;
+      }
+      .icecream{
+        background-image: url('https://startbootstrap.github.io/startbootstrap-stylish-portfolio/assets/img/portfolio-2.jpg');
+        background-size: cover;
+      }
+      .strawberries{
+        background-image: url('https://startbootstrap.github.io/startbootstrap-stylish-portfolio/assets/img/portfolio-3.jpg');
+        background-size: cover;
+      }
+      .workspace{
+        background-image: url('https://startbootstrap.github.io/startbootstrap-stylish-portfolio/assets/img/portfolio-4.jpg');
+        background-size: cover;
+      }
+    }
+  }
+  
