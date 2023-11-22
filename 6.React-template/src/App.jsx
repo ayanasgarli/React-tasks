@@ -1,6 +1,6 @@
 import React from 'react';
 import Portfolio from './components/Portfolio/Portfolio.jsx';
-import Services from './components/services/Services.jsx';
+import Services from './components/Services/Services.jsx';
 import Main from './components/Main/Main.jsx'
 import Project from './components/Project/Project.jsx';
 import Map from './components/Map/Map.jsx'
@@ -17,6 +17,7 @@ function App() {
       <Project/>
       <Map/>
       <Footer/>
+      <Services/>
     </>
   )
 }
