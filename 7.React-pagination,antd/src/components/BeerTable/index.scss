@@ -1,0 +1,26 @@
+.ant-table-thead th {
+  font-size: 25px;
+}
+
+.ant-table-tbody tr{
+  font-size: 18px;
+}
+
+.infoButton {
+  font-size: 20px;
+  padding: 20px 24px; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin: 0 auto; 
+  border: 1px solid rgb(20, 0, 132);
+  color: rgb(20, 0, 132)  ;
+
+  &:hover,
+  &:focus {
+    background-color: rgb(20, 0, 132);
+    color: white !important;
+    border: none;
+  }
+}
+
