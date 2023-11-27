@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../BASE_URL";
+import { BASE_URL } from "../base_url";
 
 export async function getAllCategories() {
   let categories;
