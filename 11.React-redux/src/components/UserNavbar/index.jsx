@@ -1,47 +1,79 @@
-import React from 'react';
-import { Menu, Button } from 'antd';
-import { HomeOutlined, ShopOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux"
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { logoutUser } from '../../services/redux/slices/userSlice';
 
-const { Item } = Menu;
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '0 4px',
+    },
+  }));
+  
 
-const Navbar = () => {
-
+function UserNavbar() {
+    const dispatch = useDispatch()
+    const user = useSelector(state=>state.user.user)
   return (
-    <Menu mode="horizontal" style={{ backgroundColor: '#001529', borderBottom: 'none', minHeight: '10vh', alignItems: 'center' }}>
-      <Item key="userSide" style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#fff', marginRight: '100vh' }}>
-        User Side
-      </Item>
-      <Item key="home">
-        <Link to="/">
-          <Button icon={<HomeOutlined />} type="text" style={{ color: '#ffffff' }}>
-            Home
-          </Button>
-        </Link>
-      </Item>
-      <Item key="categories">
-        <Link to="/categories">
-          <Button icon={<ShopOutlined />} type="text" style={{ color: '#ffffff' }}>
-            Categories
-          </Button>
-        </Link>
-      </Item>
-      <Item key="login">
-        <Link to="/login">
-          <Button icon={<LoginOutlined />} type="text" style={{ color: '#ffffff' }}>
-            Login
-          </Button>
-        </Link>
-      </Item>
-      <Item key="register">
-        <Link to="/register">
-          <Button icon={<UserAddOutlined />} type="text" style={{ color: '#ffffff' }}>
-            Register
-          </Button>
-        </Link>
-      </Item>
-    </Menu>
-  );
-};
+    <>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static">
+                <Toolbar>
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                >
+                    <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    React redux task
+                </Typography>
+                {JSON.stringify(user)=="{}"?(
+                    <>
+                        <Link to={"/login"}>
+                            <Button sx={{color:"#FFF"}}>Login</Button>
+                        </Link>
+                        <Link to={"/register"}>
+                            <Button sx={{color:"#FFF"}}>Register</Button>
+                        </Link>
+                    </>
+                ):(<>
+                    <Link to={"/user"}>
+                        <Button sx={{color:"#FFF"}}>{user.name}</Button>
+                    </Link>
+                    <Button onClick={()=>{dispatch(logoutUser())}} sx={{color:"#FFF"}}>Logout</Button>
+                </>)}
+                <Link to={"/"}>
+                    <Button sx={{color:"#FFF"}}>products</Button>
+                </Link>
+                {JSON.stringify(user)!="{}"?(
+                    <Link to={"/basket"}>
+                        <IconButton aria-label="cart" sx={{color:"#FFF"}}>
+                            <StyledBadge color="error">
+                                <ShoppingCartIcon />
+                            </StyledBadge>
+                        </IconButton>
+                    </Link>
+                ):null}
+                </Toolbar>
+            </AppBar>
+        </Box>
+    </>
+  )
+}
 
-export default Navbar;
+export default UserNavbar

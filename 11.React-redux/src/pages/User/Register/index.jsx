@@ -1,92 +1,43 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Input, Button, Checkbox } from 'antd';
-import * as Yup from 'yup';
-import Swal from 'sweetalert2';
+import { useFormik } from "formik"
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux"
+import { Input, Button } from 'antd';
+import { registerSchema } from "../../../validation/registerSchema";
+import { useEffect } from "react";
+import { addUser } from "../../../services/api/usersRequests";
 
-const Register = () => {
-  const initialValues = {
-    username: '',
-    email: '',
-    password: '',
-    isAdmin: false,
-  };
-
-  const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    isAdmin: Yup.boolean(),
-  });
-
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log('Register values:', values);
-    setTimeout(() => {
-      setSubmitting(false);
-      Swal.fire({
-        icon: 'success',
-        title: 'Registered successfully!',
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }, 1000);
-  };
-
+function Register() {
+    const user = useSelector(state=>state.user.user)
+    let navigate = useNavigate()
+    useEffect(()=>{
+        if(JSON.stringify(user)!="{}"){
+            navigate("/")
+        }
+    },[user])
+    const formik = useFormik({
+        initialValues:{
+          name:"",
+          password:""
+      },
+      onSubmit: (values,actions) => {
+        let data={...values,isAdmin:false}
+        addUser(data)
+        actions.resetForm()
+        navigate("/login")
+      },
+      validationSchema: registerSchema,
+      })
   return (
-    <div style={{ width: '300px', margin: 'auto', marginTop: '100px' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Register</h2>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field
-              as={Input}
-              prefix={<UserOutlined />}
-              type="text"
-              name="username"
-              placeholder="Username"
-              style={{ marginBottom: '12px' }}
-            />
-            <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
+    <>
+        <form onSubmit={formik.handleSubmit}>
+            <Input style={{width:"20%",margin:"5px 10px"}} name="name" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.name} placeholder="name" /><br/>
+            {formik.errors.name && formik.touched.name && <div style={{color:"red",margin:"0 10px"}}>{formik.errors.name}</div> }<br/>
+            <Input style={{width:"20%",margin:"5px 10px"}} name="password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.password} placeholder="password" type="password" /><br/>
+            {formik.errors.password && formik.touched.password && <div style={{color:"red",margin:"0 10px"}}>{formik.errors.password}</div> }<br/>
+            <Button style={{margin:"5px 10px"}} htmlType="submit" type="primary">Register</Button>
+        </form> 
+    </>
+  )
+}
 
-            <Field
-              as={Input}
-              prefix={<MailOutlined />}
-              type="email"
-              name="email"
-              placeholder="Email"
-              style={{ marginBottom: '12px' }}
-            />
-            <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
-
-            <Field
-              as={Input.Password}
-              prefix={<LockOutlined />}
-              type="password"
-              name="password"
-              placeholder="Password"
-              style={{ marginBottom: '12px' }}
-            />
-            <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
-
-            <Field as={Checkbox} name="isAdmin" style={{ marginBottom: '12px' }}>
-              Is Admin
-            </Field>
-
-            <div style={{ marginTop: '12px' }}>
-              <Button type="primary" htmlType="submit" loading={isSubmitting} style={{ marginRight: '8px', width: '40vh' }}>
-                Register
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
-};
-
-export default Register;
+export default Register
